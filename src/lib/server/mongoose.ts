@@ -8,7 +8,8 @@ declare global {
 async function connectMongo() {
   if (mongoose.connection.readyState === 1) return mongoose;
 
-  const { MONGODB_URI, MONGODB_DB } = process.env;
+  const MONGODB_URI = process.env.MONGODB_URI?.trim();
+  const MONGODB_DB = process.env.MONGODB_DB?.trim();
   if (!MONGODB_URI) throw new Error("MONGODB_URI is not defined");
   if (!MONGODB_DB) throw new Error("MONGODB_DB is not defined");
 
