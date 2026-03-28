@@ -15,7 +15,7 @@ const DashboardPage = () => {
     case "user":
       return <UserDashboard />;
     default:
-      return null;
+      return <UserDashboard />;
   }
 };
 

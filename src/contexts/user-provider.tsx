@@ -23,13 +23,16 @@ interface UserProviderProps {
 }
 
 const extractRoleFromUser = (user: User): UserRole => {
-  if (!user?.labels) return null;
+  if (!user) return null;
 
-  if (user.labels.includes("admin")) return "admin";
-  if (user.labels.includes("issuer")) return "issuer";
-  if (user.labels.includes("user")) return "user";
+  const labels = Array.isArray(user.labels) ? user.labels : [];
+  if (labels.length === 0) return "user";
 
-  return null;
+  if (labels.includes("admin")) return "admin";
+  if (labels.includes("issuer")) return "issuer";
+  if (labels.includes("user")) return "user";
+
+  return "user";
 };
 
 export function UserProvider({ initialUser, children }: UserProviderProps) {

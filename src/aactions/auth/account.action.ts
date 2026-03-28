@@ -35,7 +35,7 @@ export async function getLoggedInUser() {
           name: user.name,
           email: user.email,
           labels: user.labels,
-          prefs: user.prefs,
+          prefs: user.prefs ?? {},
           emailVerification: user.emailVerification,
           status: user.status,
           $createdAt: user.createdAt?.toISOString() ?? new Date(0).toISOString(),

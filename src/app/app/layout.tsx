@@ -14,9 +14,9 @@ const PrivateRouteLayout = async ({
   const user = await getLoggedInUser();
   if (!user) redirect("/login");
 
-  let settings: Settings | undefined;
   const res = await getUserSettings();
-  if (res.ok) settings = res.data;
+  const settings: Settings =
+    res.ok && res.data ? res.data : DefaultSettingsValue;
 
   return (
     <UserProvider initialUser={user}>

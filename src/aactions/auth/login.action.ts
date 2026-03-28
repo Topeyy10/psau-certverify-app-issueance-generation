@@ -14,7 +14,7 @@ export async function loginWithEmail(
   data: LoginFormData,
 ): Promise<LoginResponse> {
   try {
-    const COOKIE_NAME = process.env.APPWRITE_COOKIE_NAME ?? "aw-certverify";
+    const COOKIE_NAME = getSessionCookieName();
     const { email, password, rememberMe } = data;
 
     await ensureMongoConnected();

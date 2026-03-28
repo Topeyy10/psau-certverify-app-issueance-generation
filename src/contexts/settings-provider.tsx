@@ -3,6 +3,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useRef } from "react";
 import { useShallow } from "zustand/react/shallow";
+import { DefaultSettingsValue } from "@/features/settings/lib/default-settings";
 import { useSettingsStore } from "@/features/settings/lib/stores/use-settings-store";
 import type { Settings } from "@/features/settings/lib/types";
 
@@ -12,7 +13,8 @@ interface SettingsProps {
 }
 
 const SettingsProvider = (props: SettingsProps) => {
-  const { children, initialSettings } = props;
+  const { children, initialSettings: initialSettingsProp } = props;
+  const initialSettings = initialSettingsProp ?? DefaultSettingsValue;
   const { setTheme } = useTheme();
   const isInitializedRef = useRef(false);
 
@@ -37,8 +39,6 @@ const SettingsProvider = (props: SettingsProps) => {
       document.body.style.fontFamily = fontFamily;
     }
   }, [theme, fontFamily, setTheme]);
-
-  if (!isInitializedRef.current && !initialSettings) return null;
 
   return children;
 };

@@ -47,7 +47,7 @@ export async function getUserSettings(): Promise<SettingsResponse> {
 
     await ensureMongoConnected();
 
-    const userPrefs = currentUser.prefs as Record<string, unknown>;
+    const userPrefs = (currentUser.prefs ?? {}) as Record<string, unknown>;
 
     const sessions = await AuthSessionModel.find({
       userId: currentUser.$id,
