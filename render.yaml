@@ -1,0 +1,28 @@
+# Render Blueprint — set secret values in the dashboard or with `render env set`.
+# Docs: https://render.com/docs/nextjs-deploy
+services:
+  - type: web
+    name: psau-certverify
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: npm ci && npm run build:prod
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: "20.18.0"
+      - key: MONGODB_DB
+        value: certverify
+      # Paste full Atlas SRV URI in the dashboard (Secret). Never use NEXT_PUBLIC_ for this.
+      - key: MONGODB_URI
+        sync: false
+      # Public site URL used by server validation (e.g. https://psau-certverify.onrender.com)
+      - key: NEXT_PUBLIC_APP_BASE_URL
+        sync: false
+      - key: SENDGRID_API_KEY
+        sync: false
+      - key: EMAIL_SENDER
+        sync: false
+      # Optional; app defaults work. Use a stable name in production.
+      - key: SESSION_COOKIE_NAME
+        value: aw-certverify

@@ -1,0 +1,507 @@
+/* ---------------------------- Birthstone Bounce --------------------------- */
+
+@font-face {
+  font-family: "Birthstone Bounce";
+  src: url("/fonts/Birthstone_Bounce/BirthstoneBounce-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Birthstone Bounce";
+  src: url("/fonts/Birthstone_Bounce/BirthstoneBounce-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------- Blinker -------------------------------- */
+
+@font-face {
+  font-family: "Blinker";
+  src: url("/fonts/Blinker/Blinker-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Blinker";
+  src: url("/fonts/Blinker/Blinker-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------- Cinzel Decorative --------------------------- */
+
+@font-face {
+  font-family: "Cinzel Decorative";
+  src: url("/fonts/Cinzel_Decorative/CinzelDecorative-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cinzel Decorative";
+  src: url("/fonts/Cinzel_Decorative/CinzelDecorative-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------- Comic Neue ------------------------------- */
+
+@font-face {
+  font-family: "Comic Neue";
+  src: url("/fonts/Comic_Neue/ComicNeue-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Comic Neue";
+  src: url("/fonts/Comic_Neue/ComicNeue-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -------------------------------- Corinthia ------------------------------- */
+
+@font-face {
+  font-family: "Corinthia";
+  src: url("/fonts/Corinthia/Corinthia-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Corinthia";
+  src: url("/fonts/Corinthia/Corinthia-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------- Cormorant Upright --------------------------- */
+
+@font-face {
+  font-family: "Cormorant Upright";
+  src: url("/fonts/Cormorant_Upright/CormorantUpright-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cormorant Upright";
+  src: url("/fonts/Cormorant_Upright/CormorantUpright-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ----------------------------- Dancing Script ----------------------------- */
+
+@font-face {
+  font-family: "Dancing Script";
+  src: url("/fonts/Dancing_Script/DancingScript-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Dancing Script";
+  src: url("/fonts/Dancing_Script/DancingScript-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------- Dosis --------------------------------- */
+
+@font-face {
+  font-family: "Dosis";
+  src: url("/fonts/Dosis/Dosis-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Dosis";
+  src: url("/fonts/Dosis/Dosis-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------- EB Garamond ------------------------------ */
+
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/EB_Garamond/EBGaramond-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/EB_Garamond/EBGaramond-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/EB_Garamond/EBGaramond-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/EB_Garamond/EBGaramond-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -------------------------------- Fraunces -------------------------------- */
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces/Fraunces_72pt-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces/Fraunces_72pt-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces/Fraunces_72pt-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces/Fraunces_72pt-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------- Gluten --------------------------------- */
+
+@font-face {
+  font-family: "Gluten";
+  src: url("/fonts/Gluten/Gluten-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gluten";
+  src: url("/fonts/Gluten/Gluten-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ----------------------------- Grenze Gotisch ----------------------------- */
+
+@font-face {
+  font-family: "Grenze Gotisch";
+  src: url("/fonts/Grenze_Gotisch/GrenzeGotisch-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Grenze Gotisch";
+  src: url("/fonts/Grenze_Gotisch/GrenzeGotisch-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------- Inconsolata ------------------------------ */
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url("/fonts/Inconsolata/Inconsolata-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url("/fonts/Inconsolata/Inconsolata-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------- Lobster Two ------------------------------ */
+
+@font-face {
+  font-family: "Lobster Two";
+  src: url("/fonts/Lobster_Two/LobsterTwo-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lobster Two";
+  src: url("/fonts/Lobster_Two/LobsterTwo-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -------------------------------- Merienda -------------------------------- */
+
+@font-face {
+  font-family: "Merienda";
+  src: url("/fonts/Merienda/Merienda-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Merienda";
+  src: url("/fonts/Merienda/Merienda-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------- Oleo Script Swash Caps ------------------------- */
+
+@font-face {
+  font-family: "Oleo Script Swash Caps";
+  src: url("/fonts/Oleo_Script_Swash_Caps/OleoScriptSwashCaps-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Oleo Script Swash Caps";
+  src: url("/fonts/Oleo_Script_Swash_Caps/OleoScriptSwashCaps-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -------------------------------- Orbitron -------------------------------- */
+
+@font-face {
+  font-family: "Orbitron";
+  src: url("/fonts/Orbitron/Orbitron-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orbitron";
+  src: url("/fonts/Orbitron/Orbitron-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------- Oswald --------------------------------- */
+
+@font-face {
+  font-family: "Oswald";
+  src: url("/fonts/Oswald/Oswald-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Oswald";
+  src: url("/fonts/Oswald/Oswald-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -------------------------------- Red Rose -------------------------------- */
+
+@font-face {
+  font-family: "Red Rose";
+  src: url("/fonts/Red_Rose/RedRose-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Red Rose";
+  src: url("/fonts/Red_Rose/RedRose-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ----------------------------- Sansita Swashed ---------------------------- */
+
+@font-face {
+  font-family: "Sansita Swashed";
+  src: url("/fonts/Sansita_Swashed/SansitaSwashed-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sansita Swashed";
+  src: url("/fonts/Sansita_Swashed/SansitaSwashed-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------ Shantell Sans ----------------------------- */
+
+@font-face {
+  font-family: "Shantell Sans";
+  src: url("/fonts/Shantell_Sans/ShantellSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Shantell Sans";
+  src: url("/fonts/Shantell_Sans/ShantellSans-BoldItalic.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Shantell Sans";
+  src: url("/fonts/Shantell_Sans/ShantellSans-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Shantell Sans";
+  src: url("/fonts/Shantell_Sans/ShantellSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------ The Nautigal ------------------------------ */
+
+@font-face {
+  font-family: "The Nautigal";
+  src: url("/fonts/The_Nautigal/TheNautigal-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "The Nautigal";
+  src: url("/fonts/The_Nautigal/TheNautigal-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -------------------------------- Tomorrow -------------------------------- */
+
+@font-face {
+  font-family: "Tomorrow";
+  src: url("/fonts/Tomorrow/Tomorrow-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tomorrow";
+  src: url("/fonts/Tomorrow/Tomorrow-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tomorrow";
+  src: url("/fonts/Tomorrow/Tomorrow-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tomorrow";
+  src: url("/fonts/Tomorrow/Tomorrow-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------- Yanone Kaffeesatz --------------------------- */
+
+@font-face {
+  font-family: "Yanone Kaffeesatz";
+  src: url("/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yanone Kaffeesatz";
+  src: url("/fonts/Yanone_Kaffeesatz/YanoneKaffeesatz-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
