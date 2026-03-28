@@ -9,6 +9,9 @@ export function hashPassword(password: string) {
 }
 
 export function verifyPassword(password: string, passwordHash: string) {
+  if (typeof passwordHash !== "string" || !passwordHash.includes(":")) {
+    return false;
+  }
   const parts = passwordHash.split(":");
   if (parts.length !== 2) return false;
   const [salt, expectedHashHex] = parts;
