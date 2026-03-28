@@ -4,7 +4,11 @@ import { ensureMongoConnected } from "./mongoose";
 
 export async function getGridFSBucket(bucketName: string) {
   await ensureMongoConnected();
-  return new GridFSBucket(mongoose.connection.db, { bucketName });
+  const db = mongoose.connection.db;
+  if (!db) {
+    throw new Error("MongoDB is connected but database handle is missing");
+  }
+  return new GridFSBucket(db, { bucketName });
 }
 
 export async function uploadBufferToGridFS(params: {
@@ -17,11 +21,15 @@ export async function uploadBufferToGridFS(params: {
   const { bucketName, filename, buffer, contentType, metadata } = params;
   const bucket = await getGridFSBucket(bucketName);
 
+  const gridMetadata: Record<string, unknown> = { ...(metadata ?? {}) };
+  if (contentType) {
+    gridMetadata.contentType = contentType;
+  }
+  const uploadOptions =
+    Object.keys(gridMetadata).length > 0 ? { metadata: gridMetadata } : undefined;
+
   return await new Promise((resolve, reject) => {
-    const uploadStream = bucket.openUploadStream(filename, {
-      contentType,
-      metadata,
-    });
+    const uploadStream = bucket.openUploadStream(filename, uploadOptions);
 
     uploadStream.on("error", reject);
     uploadStream.on("finish", () => {
@@ -55,12 +63,25 @@ export async function downloadFromGridFS(params: {
 
   const filesCollection = mongoose.connection.collection(`${bucketName}.files`);
   const fileDoc = await filesCollection.findOne({ _id });
+  const doc = fileDoc as unknown as
+    | {
+        filename?: string;
+        length?: number;
+        contentType?: unknown;
+        metadata?: unknown;
+      }
+    | null
+    | undefined;
+  const meta = doc?.metadata as Record<string, unknown> | undefined;
+  const contentTypeFromMeta =
+    meta && typeof meta.contentType === "string" ? meta.contentType : undefined;
+  const contentTypeRoot = typeof doc?.contentType === "string" ? doc.contentType : undefined;
 
   return {
     buffer: Buffer.concat(chunks),
-    filename: fileDoc?.filename,
-    contentType: fileDoc?.contentType,
-    length: fileDoc?.length,
+    filename: doc?.filename,
+    contentType: contentTypeRoot ?? contentTypeFromMeta,
+    length: doc?.length,
   };
 }
 
@@ -72,8 +93,6 @@ export async function deleteFromGridFS(params: {
   const bucket = await getGridFSBucket(bucketName);
   const _id = new ObjectId(fileId);
 
-  await new Promise<void>((resolve, reject) => {
-    bucket.delete(_id, (err) => (err ? reject(err) : resolve()));
-  });
+  await bucket.delete(_id);
 }
 
