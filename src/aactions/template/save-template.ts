@@ -7,6 +7,7 @@ import { GRIDFS_BUCKETS } from "@/lib/server/gridfs-buckets";
 import { uploadBufferToGridFS, deleteFromGridFS } from "@/lib/server/mongodb";
 import { TemplateModel } from "@/lib/server/models/TemplateDoc";
 import { ensureMongoConnected } from "@/lib/server/mongoose";
+import { appendSystemLog } from "@/lib/server/system-log";
 
 export async function saveTemplate(formData: FormData) {
   const currentUser = await getLoggedInUser();
@@ -108,6 +109,17 @@ export async function saveTemplate(formData: FormData) {
       },
     );
 
+    await appendSystemLog({
+      actorId: currentUser.$id,
+      actorName: currentUser.name,
+      actorLabels: currentUser.labels,
+      actionRaw: "template.save.update",
+      action: "Save template",
+      resourceType: "template",
+      resourceId: templateId,
+      metadata: { name, mode: "update" },
+    });
+
     return { ok: true, id: templateId };
   }
 
@@ -123,6 +135,17 @@ export async function saveTemplate(formData: FormData) {
     paper: size.label,
     isPortrait,
     isDeleted: false,
+  });
+
+  await appendSystemLog({
+    actorId: currentUser.$id,
+    actorName: currentUser.name,
+    actorLabels: currentUser.labels,
+    actionRaw: "template.save.create",
+    action: "Create template",
+    resourceType: "template",
+    resourceId: documentId,
+    metadata: { name, mode: "create" },
   });
 
   return { ok: true, id: documentId };

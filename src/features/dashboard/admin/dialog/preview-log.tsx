@@ -51,6 +51,10 @@ const PreviewLogsDialog = ({
                 <span>{selectedLog.userFullName}</span>
               </div>
               <div>
+                <p className="text-muted-foreground">Role:</p>
+                <span>{selectedLog.userRole ?? "unknown"}</span>
+              </div>
+              <div>
                 <p className="text-muted-foreground">Resource:</p>
                 <span>
                   {selectedLog.resourceType} ({selectedLog.resourceId})
@@ -82,11 +86,17 @@ const PreviewLogsDialog = ({
                   className="bg-muted p-2 rounded-md overflow-x-auto mt-1 text-xs whitespace-pre-wrap break-words"
                   style={{ wordBreak: "break-all" }}
                 >
-                  {JSON.stringify(
-                    JSON.parse(selectedLog.metadata || "{}"),
-                    null,
-                    3,
-                  )}
+                  {(() => {
+                    try {
+                      return JSON.stringify(
+                        JSON.parse(selectedLog.metadata || "{}"),
+                        null,
+                        3,
+                      );
+                    } catch {
+                      return selectedLog.metadata || "{}";
+                    }
+                  })()}
                 </pre>
               </div>
             </div>

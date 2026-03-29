@@ -6,6 +6,7 @@ import { ensureMongoConnected } from "@/lib/server/mongoose";
 import { UserModel, type UserRole } from "@/lib/server/models/User";
 import { uniqueId } from "@/lib/server/id";
 import { hashPassword } from "@/lib/server/auth/password";
+import { appendSystemLog } from "@/lib/server/system-log";
 
 function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -40,6 +41,18 @@ export async function signupWithEmail(
       passwordHash: hashPassword(password),
       prefs: {},
     });
+
+    await appendSystemLog({
+      actorId: userId,
+      actorName: fullName,
+      actorLabels: labels,
+      actionRaw: "auth.signup.success",
+      action: "Sign up",
+      resourceType: "user",
+      resourceId: userId,
+      metadata: { email },
+    });
+
     return { ok: true };
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Sign up failed";

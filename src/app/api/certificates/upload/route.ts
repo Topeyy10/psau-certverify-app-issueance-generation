@@ -6,6 +6,7 @@ import { GRIDFS_BUCKETS } from "@/lib/server/gridfs-buckets";
 import { uploadBufferToGridFS } from "@/lib/server/mongodb";
 import { CertificateModel } from "@/lib/server/models/Certificate";
 import { ensureMongoConnected } from "@/lib/server/mongoose";
+import { appendSystemLog } from "@/lib/server/system-log";
 
 export async function POST(request: Request) {
   console.log("UPLOAD HIT at", new Date().toISOString());
@@ -49,6 +50,20 @@ export async function POST(request: Request) {
       status: "0",
       isDeleted: false,
     });
+
+    await appendSystemLog(
+      {
+        actorId: currentUser.$id,
+        actorName: currentUser.name,
+        actorLabels: currentUser.labels,
+        actionRaw: "certificate.issue.upload",
+        action: "Issue certificate",
+        resourceType: "certificate",
+        resourceId: certificateId,
+        metadata: { recipientName, recipientEmail },
+      },
+      request.headers,
+    );
 
     revalidateTag(`certificates-${currentUser.$id}`);
 

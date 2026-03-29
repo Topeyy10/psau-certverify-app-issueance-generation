@@ -6,6 +6,7 @@ import { withRetry } from "../shared/utils";
 import { getLoggedInUser } from "./account.action";
 import { UserModel } from "@/lib/server/models/User";
 import { ensureMongoConnected } from "@/lib/server/mongoose";
+import { appendSystemLog } from "@/lib/server/system-log";
 
 export async function updateUserRole(
   userId: string,
@@ -32,6 +33,17 @@ export async function updateUserRole(
 
     revalidateTag("users");
     revalidateTag(`users-${currentUser.$id}`);
+
+    await appendSystemLog({
+      actorId: currentUser.$id,
+      actorName: currentUser.name,
+      actorLabels: currentUser.labels,
+      actionRaw: "admin.user_role_update",
+      action: "Update user role",
+      resourceType: "user",
+      resourceId: userId,
+      metadata: { newRole: role, targetName: user.name },
+    });
 
     return { ok: true };
   } catch (err: unknown) {

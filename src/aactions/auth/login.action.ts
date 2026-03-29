@@ -9,6 +9,7 @@ import { AuthSessionModel } from "@/lib/server/models/AuthSession";
 import { UserModel } from "@/lib/server/models/User";
 import { getSessionCookieName } from "@/lib/server/session-cookie-name";
 import { verifyPassword } from "@/lib/server/auth/password";
+import { appendSystemLog } from "@/lib/server/system-log";
 
 export async function loginWithEmail(
   data: LoginFormData,
@@ -21,16 +22,43 @@ export async function loginWithEmail(
 
     const user = await UserModel.findOne({ email }).lean();
     if (!user) {
+      await appendSystemLog({
+        actorId: "anonymous",
+        actorName: "Unknown",
+        actionRaw: "auth.login.failure.unknown_account",
+        action: "Login failed",
+        resourceType: "session",
+        resourceId: "login",
+        metadata: { reason: "unknown_account" },
+      });
       return { ok: false, error: "Login failed" };
     }
 
     // Match the existing UI behavior.
     if (!user.status) {
+      await appendSystemLog({
+        actorId: "anonymous",
+        actorName: "Unknown",
+        actionRaw: "auth.login.failure.account_blocked",
+        action: "Login failed",
+        resourceType: "session",
+        resourceId: "login",
+        metadata: { reason: "account_blocked" },
+      });
       return { ok: false, error: "The current user has been blocked." };
     }
 
     const isValidPassword = verifyPassword(password, user.passwordHash);
     if (!isValidPassword) {
+      await appendSystemLog({
+        actorId: "anonymous",
+        actorName: "Unknown",
+        actionRaw: "auth.login.failure.invalid_credentials",
+        action: "Login failed",
+        resourceType: "session",
+        resourceId: "login",
+        metadata: { reason: "invalid_credentials" },
+      });
       return { ok: false, error: "Login failed" };
     }
 
@@ -70,6 +98,17 @@ export async function loginWithEmail(
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: rememberMe ? 60 * 60 * 24 * 30 : undefined,
+    });
+
+    await appendSystemLog({
+      actorId: user.userId,
+      actorName: user.name,
+      actorLabels: user.labels,
+      actionRaw: "auth.login.success",
+      action: "Login",
+      resourceType: "session",
+      resourceId: sessionId,
+      metadata: { email: user.email },
     });
 
     return { ok: true };

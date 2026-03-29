@@ -6,6 +6,7 @@ import { SystemLogModel } from "@/lib/server/models/SystemLogDoc";
 
 function mapSortField(sortBy: string): string {
   if (sortBy === "$createdAt") return "timestamp";
+  if (sortBy === "userRole") return "userRole";
   return sortBy;
 }
 
@@ -40,6 +41,7 @@ export async function getLogs(
         : new Date(0).toISOString(),
       userId: d.userId,
       userFullName: d.userFullName,
+      userRole: d.userRole ?? "unknown",
       actionRaw: d.actionRaw,
       action: d.action,
       resourceType: d.resourceType,

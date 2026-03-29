@@ -6,6 +6,7 @@ import { GRIDFS_BUCKETS } from "@/lib/server/gridfs-buckets";
 import { deleteFromGridFS } from "@/lib/server/mongodb";
 import { TemplateModel } from "@/lib/server/models/TemplateDoc";
 import { ensureMongoConnected } from "@/lib/server/mongoose";
+import { appendSystemLog } from "@/lib/server/system-log";
 
 export async function deleteTemplateById(id: string) {
   const currentUser = await getLoggedInUser();
@@ -47,6 +48,19 @@ export async function deleteTemplateById(id: string) {
       `Cleanup failed for template ${id}. Template is soft-deleted, retry later.`,
       cleanupErr,
     );
+  }
+
+  if (currentUser) {
+    await appendSystemLog({
+      actorId: currentUser.$id,
+      actorName: currentUser.name,
+      actorLabels: currentUser.labels,
+      actionRaw: "template.delete",
+      action: "Delete template",
+      resourceType: "template",
+      resourceId: id,
+      metadata: { name: existing.name },
+    });
   }
 
   return { ok: true };

@@ -77,6 +77,7 @@ export interface Certificate extends DocumentShape {
 export interface SystemLog extends DocumentShape {
   userId: string;
   userFullName: string;
+  userRole: string;
   actionRaw: string;
   action: string;
   resourceType: string;

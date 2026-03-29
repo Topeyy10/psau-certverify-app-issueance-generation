@@ -3,6 +3,8 @@ import mongoose, { type Document, type Model, Schema } from "mongoose";
 export interface ISystemLog extends Document {
   userId: string;
   userFullName: string;
+  /** Primary app role for this actor: admin | issuer | user | unknown */
+  userRole: string;
   actionRaw: string;
   action: string;
   resourceType: string;
@@ -19,6 +21,7 @@ const SystemLogSchema = new Schema<ISystemLog>(
   {
     userId: { type: String, required: true, index: true },
     userFullName: { type: String, required: true },
+    userRole: { type: String, required: true, index: true, default: "unknown" },
     actionRaw: { type: String, required: true },
     action: { type: String, required: true },
     resourceType: { type: String, required: true },

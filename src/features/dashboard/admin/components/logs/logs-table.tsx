@@ -81,6 +81,27 @@ const LogsTable = ({ onRowClick }: LogsTableProps) => {
       ),
     },
     {
+      accessorKey: "userRole",
+      header: ({ column }) => (
+        <button
+          type="button"
+          className="flex items-center gap-x-2"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Role
+          {getSortIcon(column.getIsSorted())}
+        </button>
+      ),
+      cell: ({ row }) => {
+        const role = String(row.getValue("userRole") ?? "unknown");
+        return (
+          <Badge variant={role === "admin" ? "default" : "secondary"}>
+            {role}
+          </Badge>
+        );
+      },
+    },
+    {
       accessorKey: "ipAddress",
       header: "IP Address",
       cell: ({ row }) => (

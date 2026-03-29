@@ -6,6 +6,7 @@ import { ensureMongoConnected } from "@/lib/server/mongoose";
 import { AuthSessionModel } from "@/lib/server/models/AuthSession";
 import type { LogoutResponse } from "../shared/types";
 import { getSessionCookieName } from "@/lib/server/session-cookie-name";
+import { appendSystemLog } from "@/lib/server/system-log";
 import { getLoggedInUser } from "./account.action";
 
 export async function logOut(): Promise<LogoutResponse> {
@@ -14,6 +15,16 @@ export async function logOut(): Promise<LogoutResponse> {
     const currentUser = await getLoggedInUser();
     if (currentUser) {
       revalidatePath(`user-templates-${currentUser.$id}`);
+      await appendSystemLog({
+        actorId: currentUser.$id,
+        actorName: currentUser.name,
+        actorLabels: currentUser.labels,
+        actionRaw: "auth.logout",
+        action: "Logout",
+        resourceType: "session",
+        resourceId: "logout",
+        metadata: {},
+      });
     }
 
     await ensureMongoConnected();
