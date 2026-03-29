@@ -59,7 +59,7 @@ export interface TemplatesResponse {
   totalPages: number;
   hasNextPage: boolean;
 }
-export type TemplateResponse = SuccessResponse<ArrayBuffer> | ErrorResponse;
+export type TemplateResponse = SuccessResponse<string> | ErrorResponse;
 
 /** Admin stuff */
 

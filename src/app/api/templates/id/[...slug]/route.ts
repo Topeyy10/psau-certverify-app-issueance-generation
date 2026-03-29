@@ -1,4 +1,3 @@
-import { Buffer } from "node:buffer";
 import { NextResponse } from "next/server";
 import { getTemplate } from "@/aactions/template/get-template";
 
@@ -21,10 +20,7 @@ export async function GET(
       throw new Error(res.error);
     }
 
-    // GridFS returns raw JSON bytes; JSON.stringify(ArrayBuffer) becomes "{}" and breaks Fabric.
-    const body = Buffer.from(res.data).toString("utf-8");
-
-    return new NextResponse(body, {
+    return new NextResponse(res.data, {
       headers: {
         "Content-Type": "application/json",
         "Cache-Control": "public, max-age=300, immutable", // Cache for 5 min

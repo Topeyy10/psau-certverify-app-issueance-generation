@@ -9,18 +9,15 @@ import { downloadFromGridFS } from "@/lib/server/mongodb";
 async function _fetchTemplate(
   fileId: string,
   _userId: string,
-): Promise<ArrayBuffer> {
+): Promise<string> {
   return withRetry({
     fn: async () => {
       const { buffer } = await downloadFromGridFS({
         bucketName: GRIDFS_BUCKETS.templatesJson,
         fileId,
       });
-      const u8 = new Uint8Array(buffer);
-      return u8.buffer.slice(
-        u8.byteOffset,
-        u8.byteOffset + u8.byteLength,
-      ) as ArrayBuffer;
+      // UTF-8 text — unstable_cache cannot round-trip ArrayBuffer (becomes {}), which broke Buffer.from in the API route.
+      return buffer.toString("utf-8");
     },
   });
 }
