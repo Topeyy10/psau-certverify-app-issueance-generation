@@ -47,19 +47,29 @@ export const formatToReadableTimestamp = (
   });
 };
 
+/** Display times in Philippine Time (PHT, UTC+8) for consistent admin UX. */
+const DISPLAY_TIMEZONE = "Asia/Manila";
+
+function dateKeyInTimezone(d: Date, timeZone: string): string {
+  return d.toLocaleDateString("en-CA", { timeZone });
+}
+
+/** Whole calendar days between two YYYY-MM-DD strings (Gregorian). */
+function calendarDaysBetween(aYmd: string, bYmd: string): number {
+  const [ay, am, ad] = aYmd.split("-").map(Number);
+  const [by, bm, bd] = bYmd.split("-").map(Number);
+  const ta = Date.UTC(ay, am - 1, ad);
+  const tb = Date.UTC(by, bm - 1, bd);
+  return Math.round((tb - ta) / 86400000);
+}
+
 export const formatRelativeDate = (isoString: string): string => {
   const date = new Date(isoString);
   const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-  const lastWeek = new Date(today);
-  lastWeek.setDate(lastWeek.getDate() - 6);
-  const lastYear = new Date(today);
-  lastYear.setFullYear(lastYear.getFullYear() - 1);
+  const tz = DISPLAY_TIMEZONE;
 
-  // Format time in 12-hour format with AM/PM
   const timeFormatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
     hour: "numeric",
     minute: "2-digit",
     second: "2-digit",
@@ -67,33 +77,46 @@ export const formatRelativeDate = (isoString: string): string => {
   });
   const timeString = timeFormatter.format(date);
 
-  // Check if date is today
-  if (date >= today) {
+  const keyNow = dateKeyInTimezone(now, tz);
+  const keyEvent = dateKeyInTimezone(date, tz);
+  const dayDiff = calendarDaysBetween(keyEvent, keyNow);
+
+  if (dayDiff === 0) {
     return `Today at ${timeString}`;
   }
 
-  // Check if date was yesterday
-  if (date >= yesterday && date < today) {
+  if (dayDiff === 1) {
     return `Yesterday at ${timeString}`;
   }
 
-  // Check if date was within the last 6 days (shows day of week)
-  if (date >= lastWeek) {
-    const dayFormatter = new Intl.DateTimeFormat("en-US", { weekday: "long" });
+  if (dayDiff >= 2 && dayDiff <= 6) {
+    const dayFormatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      weekday: "long",
+    });
     return `${dayFormatter.format(date)} at ${timeString}`;
   }
 
-  // Check if date was in the current year
-  if (date.getFullYear() === now.getFullYear()) {
+  const eventYearStr = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    year: "numeric",
+  }).format(date);
+  const nowYearStr = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    year: "numeric",
+  }).format(now);
+
+  if (eventYearStr === nowYearStr) {
     const monthDayFormatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
       month: "long",
       day: "numeric",
     });
     return `${monthDayFormatter.format(date)} at ${timeString}`;
   }
 
-  // Date is from previous years
   const fullDateFormatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
     month: "long",
     day: "numeric",
     year: "numeric",
