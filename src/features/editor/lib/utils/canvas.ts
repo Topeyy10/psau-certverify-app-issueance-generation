@@ -15,38 +15,22 @@ export const loadCanvasFromTemplate = async (
   canvas: Canvas,
   jsonId: string,
 ): Promise<void> => {
-  return axios
-    .get(`/api/templates/id/${jsonId}`, { timeout: 10000 })
-    .then(({ data: templateData }) => {
-      return new Promise<void>((resolve, reject) => {
-        try {
-          canvas.loadFromJSON(templateData, () => {
-            const checkObjects = () => {
-              const objects = canvas.getObjects();
-              if (objects.length > 0) {
-                console.log(objects);
-                resolve();
-              } else {
-                setTimeout(checkObjects, 50);
-              }
-            };
-            canvas.renderAll();
-            checkObjects();
-          });
-        } catch (err) {
-          reject(err);
-        }
-      });
-    })
-    .catch((err: unknown) => {
-      const message =
-        axios.isAxiosError(err) && err.response?.data
-          ? String(err.response.data)
-          : err instanceof Error
-            ? err.message
-            : "Failed to fetch template data";
-      throw new Error(message);
+  try {
+    const { data: templateData } = await axios.get(`/api/templates/id/${jsonId}`, {
+      timeout: 10000,
     });
+    // Fabric 6: loadFromJSON returns a Promise; the old callback was treated as a reviver, not onComplete.
+    await canvas.loadFromJSON(templateData);
+    canvas.renderAll();
+  } catch (err: unknown) {
+    const message =
+      axios.isAxiosError(err) && err.response?.data
+        ? String(err.response.data)
+        : err instanceof Error
+          ? err.message
+          : "Failed to fetch template data";
+    throw new Error(message);
+  }
 };
 
 export const makeResizeHandler = (

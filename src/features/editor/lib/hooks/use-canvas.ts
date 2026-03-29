@@ -8,7 +8,7 @@ import { useSettingsStore } from "@/features/settings";
 import { useToastStore } from "@/stores/toast-store";
 import { useCanvasStore } from "../stores/canvas-store";
 import { useTemplateStore } from "../stores/template-store";
-import type { Artboard, SnapContext } from "../types";
+import type { SnapContext } from "../types";
 import {
   applyDefaults,
   attachCanvasEvents,
@@ -26,7 +26,7 @@ interface UseCanvas {
 }
 
 export const useCanvas = (): UseCanvas => {
-  const { id, size, name, jsonId } = useTemplateStore();
+  const { size, name, jsonId } = useTemplateStore();
 
   const { stop, stopError } = useToastStore(
     useShallow((s) => ({ stop: s.stopSuccess, stopError: s.stopError })),
@@ -43,23 +43,10 @@ export const useCanvas = (): UseCanvas => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const snapLinesRef = useRef<Line[]>([]);
-  const initialIdRef = useRef<string | null>(id);
   const cleanupRef = useRef<(() => void) | null>(null);
 
   // Prevent double initialization
   const canvasInstanceRef = useRef<Canvas | null>(null);
-
-  // Find existing artboard
-  const findArtboard = (canvas: Canvas): Rect | null => {
-    const objects = canvas.getObjects();
-
-    return (
-      (objects.find(
-        (obj) =>
-          obj.type.toLowerCase() === "rect" && (obj as Artboard).isArtboard,
-      ) as Rect) || null
-    );
-  };
 
   const setupCanvas = async (
     fabricCanvas: Canvas,
@@ -69,10 +56,7 @@ export const useCanvas = (): UseCanvas => {
 
     let artboard: Rect;
 
-    const shouldLoadTemplate = initialIdRef.current !== null;
-
-    if (shouldLoadTemplate && jsonId) {
-      // Wait until JSON fully loaded
+    if (jsonId) {
       await loadCanvasFromTemplate(fabricCanvas, jsonId);
 
       const foundArtboard = findArtboardOrFallback(fabricCanvas);
