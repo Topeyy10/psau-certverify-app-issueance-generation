@@ -15,12 +15,11 @@ import {
 } from "react";
 import { useShallow } from "zustand/react/shallow";
 import {
-  type Artboard,
   isQR,
   isText,
   type Placeholder as PlaceholderObject,
 } from "@/features/editor/lib/types";
-import { applyDefaults } from "@/features/editor/lib/utils";
+import { applyDefaults, findArtboardOrFallback } from "@/features/editor/lib/utils";
 import { useToastStore } from "@/stores/toast-store";
 import { META_PLACEHOLDERS, NON_MAPPABLE_VARIANTS } from "../constants";
 import type {
@@ -247,7 +246,9 @@ export const DataProvider = ({
         const canvas = canvasRef.current;
         const artboard = artboardRef.current;
         if (!canvas || !artboard) {
-          throw new Error("Canvas or artboard not initialized");
+          throw new Error(
+            "Certificate page area not found. Open the template in the editor and Save again so the artboard is stored correctly.",
+          );
         }
 
         const row = dataMap.get(rowId);
@@ -373,18 +374,9 @@ export const DataProvider = ({
         applyDefaults();
         return fabricCanvas.loadFromJSON(templateData).then(() => {
           const objects = fabricCanvas.getObjects();
-          let artboard: Rect | null = null;
           const canvasPlaceholders: Placeholder[] = [];
 
           objects.forEach((obj: FabricObject, index: number) => {
-            if (
-              obj.type.toLowerCase() === "rect" &&
-              (obj as Artboard).isArtboard
-            ) {
-              artboard = obj as Rect;
-              return;
-            }
-
             if ((obj as PlaceholderObject).isPlaceholder) {
               const ph = obj as PlaceholderObject;
               const key =
@@ -407,6 +399,8 @@ export const DataProvider = ({
               });
             }
           });
+
+          const artboard = findArtboardOrFallback(fabricCanvas);
 
           canvasRef.current = fabricCanvas;
           artboardRef.current = artboard;

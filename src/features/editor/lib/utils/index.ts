@@ -2,6 +2,7 @@ export * from "./artboard";
 export * from "./canvas";
 export * from "./canvas-setup";
 export * from "./extensions";
+export * from "./find-artboard";
 export * from "./filters";
 export * from "./shapes";
 export * from "./snapping";

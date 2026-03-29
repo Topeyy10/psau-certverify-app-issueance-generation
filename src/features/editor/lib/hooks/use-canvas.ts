@@ -14,6 +14,7 @@ import {
   attachCanvasEvents,
   clipArtboard,
   createArtboard,
+  findArtboardOrFallback,
   loadCanvasFromTemplate,
   protectArtboard,
   saveCanvas,
@@ -74,7 +75,7 @@ export const useCanvas = (): UseCanvas => {
       // Wait until JSON fully loaded
       await loadCanvasFromTemplate(fabricCanvas, jsonId);
 
-      const foundArtboard = findArtboard(fabricCanvas);
+      const foundArtboard = findArtboardOrFallback(fabricCanvas);
 
       if (foundArtboard) {
         artboard = foundArtboard;
