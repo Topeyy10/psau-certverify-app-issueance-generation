@@ -5,8 +5,7 @@ import { getEnv } from "../shared/utils";
 import { ensureMongoConnected } from "@/lib/server/mongoose";
 import { EmailVerificationTokenModel } from "@/lib/server/models/EmailVerificationToken";
 import { UserModel } from "@/lib/server/models/User";
-import { createSmtpTransporter } from "../shared/utils/smtp-transport";
-import { getSMTPEnv } from "../shared/utils/validation";
+import { sendAuthEmail } from "../shared/utils/send-auth-email";
 import crypto from "crypto";
 import { getLoggedInUser } from "./account.action";
 
@@ -30,15 +29,11 @@ export async function sendVerificationEmail(): Promise<VoidActionResponse> {
       expiresAt,
     });
 
-    const smtp = getSMTPEnv();
-    const transporter = createSmtpTransporter();
-
     const verifyUrl = `${BASE_URL}/verify?userId=${encodeURIComponent(
       currentUser.$id,
     )}&secret=${encodeURIComponent(secret)}`;
 
-    await transporter.sendMail({
-      from: smtp.sender,
+    await sendAuthEmail({
       to: currentUser.email,
       subject: "Verify your email",
       text: `Click to verify your email: ${verifyUrl}`,

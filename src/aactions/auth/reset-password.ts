@@ -5,8 +5,7 @@ import { getEnv } from "../shared/utils";
 import { ensureMongoConnected } from "@/lib/server/mongoose";
 import { PasswordRecoveryTokenModel } from "@/lib/server/models/PasswordRecoveryToken";
 import { UserModel } from "@/lib/server/models/User";
-import { createSmtpTransporter } from "../shared/utils/smtp-transport";
-import { getSMTPEnv } from "../shared/utils/validation";
+import { sendAuthEmail } from "../shared/utils/send-auth-email";
 import crypto from "crypto";
 import { hashPassword } from "@/lib/server/auth/password";
 
@@ -34,15 +33,11 @@ export async function sendPasswordReset(
       expiresAt,
     });
 
-    const smtp = getSMTPEnv();
-    const transporter = createSmtpTransporter();
-
     const resetUrl = `${BASE_URL}/reset?userId=${encodeURIComponent(
       user.userId,
     )}&secret=${encodeURIComponent(secret)}`;
 
-    await transporter.sendMail({
-      from: smtp.sender,
+    await sendAuthEmail({
       to: email,
       subject: "Reset your password",
       text: `Click to reset your password: ${resetUrl}`,
