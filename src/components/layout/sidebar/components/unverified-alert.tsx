@@ -25,8 +25,8 @@ const UnverifiedAlert = ({ status }: { status: boolean }) => {
     try {
       start("Sending email");
       const result = await sendVerificationEmail();
-      if (result && !result.ok) {
-        error(result.error);
+      if (!result?.ok) {
+        error(result?.error ?? "Could not send email. Check SMTP settings on the server.");
       } else {
         success("Resent email succesfully");
       }

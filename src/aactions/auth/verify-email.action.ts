@@ -2,10 +2,10 @@
 
 import type { VoidActionResponse } from "../shared/types";
 import { getEnv } from "../shared/utils";
-import nodemailer from "nodemailer";
 import { ensureMongoConnected } from "@/lib/server/mongoose";
 import { EmailVerificationTokenModel } from "@/lib/server/models/EmailVerificationToken";
 import { UserModel } from "@/lib/server/models/User";
+import { createSmtpTransporter } from "../shared/utils/smtp-transport";
 import { getSMTPEnv } from "../shared/utils/validation";
 import crypto from "crypto";
 import { getLoggedInUser } from "./account.action";
@@ -31,15 +31,7 @@ export async function sendVerificationEmail(): Promise<VoidActionResponse> {
     });
 
     const smtp = getSMTPEnv();
-    const transporter = nodemailer.createTransport({
-      host: smtp.hostname,
-      port: Number(smtp.port),
-      secure: smtp.encryption.toLowerCase() === "ssl",
-      auth: {
-        user: smtp.username,
-        pass: smtp.password,
-      },
-    });
+    const transporter = createSmtpTransporter();
 
     const verifyUrl = `${BASE_URL}/verify?userId=${encodeURIComponent(
       currentUser.$id,

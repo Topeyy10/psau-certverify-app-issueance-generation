@@ -2,10 +2,10 @@
 
 import type { VoidActionResponse } from "../shared/types";
 import { getEnv } from "../shared/utils";
-import nodemailer from "nodemailer";
 import { ensureMongoConnected } from "@/lib/server/mongoose";
 import { PasswordRecoveryTokenModel } from "@/lib/server/models/PasswordRecoveryToken";
 import { UserModel } from "@/lib/server/models/User";
+import { createSmtpTransporter } from "../shared/utils/smtp-transport";
 import { getSMTPEnv } from "../shared/utils/validation";
 import crypto from "crypto";
 import { hashPassword } from "@/lib/server/auth/password";
@@ -35,15 +35,7 @@ export async function sendPasswordReset(
     });
 
     const smtp = getSMTPEnv();
-    const transporter = nodemailer.createTransport({
-      host: smtp.hostname,
-      port: Number(smtp.port),
-      secure: smtp.encryption.toLowerCase() === "ssl",
-      auth: {
-        user: smtp.username,
-        pass: smtp.password,
-      },
-    });
+    const transporter = createSmtpTransporter();
 
     const resetUrl = `${BASE_URL}/reset?userId=${encodeURIComponent(
       user.userId,
